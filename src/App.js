@@ -1,24 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import axios from "axios";
+import Home from "./pages/Home";
+import ProductDetail from "./pages/ProductDetail";
+import About from "./pages/About";
+import NavBar from "./componentes/NavBar";
 
 function App() {
+  const [storeItem, setStoreItem] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axios.get("https://fakestoreapi.com/products").then(({ data }) => {
+      data.forEach((element) => {
+        var today = new Date();
+        today.setTime(today.getTime() + element.price * 60 * 1000);
+        element.countdownDateOrigin = today;
+      });
+      console.log(data);
+      setStoreItem(data);
+      setLoading(false);
+    });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <NavBar />
+      <Routes>
+        <Route
+          path="/"
+          exact
+          element={<Home items={storeItem} loading={loading} />}
+        />
+        <Route path="/detalle/:id" element={<ProductDetail />} />
+        <Route path="/acerca" element={<About />} />
+      </Routes>
+    </>
   );
 }
 
