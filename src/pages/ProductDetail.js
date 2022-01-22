@@ -1,16 +1,14 @@
-import { useState } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 export default function ProductDetail() {
   const { id } = useParams();
-  console.log("id", id);
   const [info, setInfo] = useState([]);
 
-  axios
-    .get(`https://fakestoreapi.com/products/${id}`)
-    .then((res) => setInfo(res.data));
-  console.log("info", info);
+  useEffect(() => {
+    axios.get(`https://fakestoreapi.com/products/${id}`).then((res) => setInfo(res.data));
+  }, []);
 
   return (
     <div className="container mx-auto py-3">

@@ -1,8 +1,7 @@
-import React from "react";
-// import ProductList from "./ProductList";
-import ProductCard from "../componentes/ProductCard";
+import React from 'react';
+import ProductCard from '../components/ProductCard';
 
-export default function Home({ items }) {
+const Home = ({ items }) => {
   return (
     <div className="hero">
       <div class="text-center">
@@ -15,4 +14,6 @@ export default function Home({ items }) {
       </div>
     </div>
   );
-}
+};
+
+export default Home;
